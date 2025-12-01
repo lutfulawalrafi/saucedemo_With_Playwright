@@ -62,17 +62,21 @@ saucedemo/
 │   ├── playwright.config.js         # Playwright configuration
 │   ├── .gitignore                   # Git exclusions
 │   ├── README.md                    # This file
-│   └── QUICKSTART.md                # Quick reference guide
+│   ├── QUICKSTART.md                # Quick reference guide
+│   ├── LOGIN_FLOW.md                # Login flow explanation
+│   └── CART_TEST_FLOW.md            # Cart test flow explanation
 │
 ├── 📦 Page Object Model (POM)
 │   └── pages/
 │       ├── BasePage.js              # Base class with common methods
 │       ├── LoginPage.js             # Login page interactions
-│       └── DashboardPage.js         # Dashboard/inventory page
+│       ├── DashboardPage.js         # Dashboard/inventory page
+│       └── CartPage.js              # Shopping cart page
 │
 ├── 🧪 Test Infrastructure
 │   └── tests/
 │       ├── login.spec.js            # Login test suite (@smoke)
+│       ├── cart.spec.js             # Shopping cart test suite (@smoke)
 │       └── fixtures/
 │           └── authFixture.js       # Custom authentication fixtures
 │

@@ -416,6 +416,8 @@ git commit -m "refactor(pages): Optimize wait strategies"
 
 - [README.md](README.md) - Main documentation
 - [QUICKSTART.md](QUICKSTART.md) - Quick reference guide
+- [LOGIN_FLOW.md](LOGIN_FLOW.md) - Login flow explanation
+- [CART_TEST_FLOW.md](CART_TEST_FLOW.md) - Cart test flow explanation
 
 ### External Resources
 

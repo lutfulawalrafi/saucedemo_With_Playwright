@@ -30,7 +30,7 @@ test('should display product in cart page', async ({ authenticatedPage }) => {
 
 ## 📦 The Mystery Line: Object Destructuring
 
-The most confusing line for beginners is often this one:
+The most confusing line is often this one:
 
 ```javascript
 const { dashboardPage, cartPage } = authenticatedPage;
