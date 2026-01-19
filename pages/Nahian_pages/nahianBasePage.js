@@ -1,5 +1,5 @@
-import logger from '../helpers/logger.js';
-import globalProperties from '../utils/nahian_globalProperties.js';
+import logger from '../../helpers/logger.js';
+import globalProperties from '../../utils/nahian_globalProperties.js';
 
 /**
  * BasePage - Base class for all Page Objects

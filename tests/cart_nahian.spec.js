@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
 import LoginPage from '../pages/LoginPage.js'; 
-import DashboardPage from '../Nahian_pages/nahianDashboardPage.js';
+import DashboardPage from '../pages/Nahian_pages/nahianDashboardPage.js';
 import CartPage from '../pages/CartPage.js';
-import CheckoutPage from '../Nahian_pages/nahianCheckoutPage.js';
+import CheckoutPage from '../pages/Nahian_pages/nahianCheckoutPage.js';
 import excelReader from '../utils/excelReader.js';
 
 test.describe('POM-Task Tests', () => {

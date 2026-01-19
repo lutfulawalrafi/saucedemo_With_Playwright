@@ -1,4 +1,4 @@
-import BasePage from '../pages/BasePage.js';
+import BasePage from '../BasePage.js';
 
 /**
  * DashboardPage - Page Object for SauceDemo Inventory/Dashboard Page
