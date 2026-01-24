@@ -4,6 +4,7 @@ test('test', async ({ page }) => {
   await page.goto('https://www.saucedemo.com/');
  
   const usernameField = page.locator('[data-test="username"]');
+
   const passwordField = page.locator('[data-test="password"]');
   const loginButton = page.locator('[data-test="login-button"]');
  
