@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/Adiba_Pages/Login';
-import { Inventory } from '../pages/Adiba_Pages/Inventory';
+import { Products } from '../pages/Adiba_Pages/Products';
 import { Cart } from '../pages/Adiba_Pages/Cart';
 import { Checkout } from '../pages/Adiba_Pages/Checkout';
 import { CheckoutOverview } from '../pages/Adiba_Pages/CheckoutOverview';
@@ -9,7 +9,7 @@ import { CheckoutComplete } from '../pages/Adiba_Pages/CheckoutComplete';
 test('test', async ({ page }) => {
  
     const loginPage = new LoginPage(page);
-    const inventory = new Inventory(page);
+    const products = new Products(page);
     const cart = new Cart(page);
     const checkout = new Checkout(page);
     const checkoutOverview = new CheckoutOverview(page);
@@ -19,17 +19,29 @@ test('test', async ({ page }) => {
     await loginPage.goto();
     await loginPage.login('standard_user', 'secret_sauce');
    
-    await expect(inventory.pageTitle).toContainText('Products');
+    await expect(products.pageTitle).toContainText('Products');
 
     //Find Product and Add to Cart
-    const product = await inventory.locateProduct('Sauce Labs Fleece Jacket');    
-    await inventory.addProductToCart(product);
+    const product = await products.locateProduct('Sauce Labs Fleece Jacket');    
+    await products.addProductToCart(product);
    
     await expect(product.getByRole('button', { name: 'Remove' })).toBeVisible();
-    await expect(inventory.cart).toContainText('1');
+    await expect(products.cart).toContainText('1');
+
+    //Remove Product
+    await products.removeFromCart(product);
+
+    await expect(product.getByRole('button', { name: 'Add to cart' })).toBeVisible();
+    await expect(products.cart).toContainText('');
+
+    //Add to Cart again
+    await products.addProductToCart(product);
+   
+    await expect(product.getByRole('button', { name: 'Remove' })).toBeVisible();
+    await expect(products.cart).toContainText('1');
 
     //Go to Cart
-    await cart.goToCart(inventory.cart);
+    await cart.goToCart(products.cart);
     await expect(cart.pageTitle).toContainText('Your Cart');
    
     //Verify Cart Information
@@ -56,7 +68,7 @@ test('test', async ({ page }) => {
     await expect(checkoutComplete.successMessage).toContainText('Thank you for your order!');
 
 
-    //Go Back to Home (Inventory page)
+    //Go Back to Home (Products page)
     await checkoutComplete.goBackHome();
-    await expect(inventory.pageTitle).toContainText('Products');
+    await expect(products.pageTitle).toContainText('Products');
 });

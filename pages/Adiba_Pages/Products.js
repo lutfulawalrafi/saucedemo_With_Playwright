@@ -1,4 +1,4 @@
-export class Inventory {
+export class Products {
   constructor(page) {
     this.page = page;
 
@@ -18,5 +18,9 @@ export class Inventory {
 
   async addProductToCart(product) {
     await product.getByRole('button', { name: 'Add to cart' }).click();
+  }
+
+  async removeFromCart(product) {
+    await product.getByRole('button', { name: 'Remove' }).click();
   }
 }
