@@ -15,7 +15,7 @@ export class CartPage {
     return this.page.locator('.cart_item').filter({ hasText: name });
   }
  
-  /*async expectItemDetails(name, qty, expectedPrice) {
+  async expectItemDetails(name, qty, expectedPrice) {
     const item = this.cartItemByName(name);
 
     await expect(item.locator('.inventory_item_name')).toHaveText(name);
@@ -25,6 +25,6 @@ export class CartPage {
 
   async checkout() {
     await this.checkoutButton.click();
-  }*/
+  }
 
 }

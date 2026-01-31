@@ -27,6 +27,10 @@ test('Buy Sauce Labs Fleece Jacket',async({page})=> {
     await inventory.expectProductVisible(PRODUCT);
     console.log('✅ Fleece Jacket is visible on inventory page');
 
+    // Capture price while still on inventory page
+    const inventoryPrice = await inventory.getProductPrice(PRODUCT);
+    console.log('Inventory price:', inventoryPrice);
+
     //4) add to cart
     await inventory.addToCart(PRODUCT);
     console.log('✅ Fleece Jacket has been added to cart');
@@ -44,9 +48,10 @@ test('Buy Sauce Labs Fleece Jacket',async({page})=> {
 
     //7. Verify Product Details on Cart Page
     // Capture price to compare across pages 
-    /*const inventoryPrice = await inventory.getProductPrice(PRODUCT);
+    //await inventory.expectLoaded();  **
+    //const inventoryPrice = await inventory.getProductPrice(PRODUCT); **
     await cart.expectItemDetails(PRODUCT, 1, inventoryPrice);
-    console.log('✅ Product details displayed');*/
+    console.log('✅ Product details displayed');
 
 });
 

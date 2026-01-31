@@ -14,7 +14,9 @@ export class InventoryPage {
   }
 
   productCardByName(name) {
-    return this.page.locator('.inventory_item').filter({ hasText: name });
+    //return this.page.locator('.inventory_item').filter({ hasText: name });
+    const nameEl = this.page.locator('.inventory_item_name', { hasText: name });
+    return this.page.locator('.inventory_item').filter({ has: nameEl });
   }
 
 
@@ -44,11 +46,7 @@ export class InventoryPage {
   }
 
   async getProductPrice(name) {
-  const price = this.productCardByName(name)
-    .locator('.inventory_item_price');
-
-  await expect(price).toBeVisible(); 
-
+  const price = this.productCardByName(name).locator('.inventory_item_price');
   const txt = await price.innerText();
   return txt.trim();
 }
