@@ -5,6 +5,9 @@ import excelReader from '../utils/excelReader';
 import {LoginPage} from '../pages/LutfulRafi_Pages/LoginPage.js';
 import {InventoryPage} from '../pages/LutfulRafi_Pages/InventoryPage.js';
 import {CartPage} from '../pages/LutfulRafi_Pages/CartPage.js';
+import {CheckoutInfoPage} from '../pages/LutfulRafi_Pages/CheckoutInfoPage.js';
+import {CheckoutOverviewPage} from '../pages/LutfulRafi_Pages/CheckoutOverviewPage.js';
+import {CheckoutCompletePage} from '../pages/LutfulRafi_Pages/CheckoutCompletePage.js';
 
 test('Buy Sauce Labs Fleece Jacket',async({page})=> {
 
@@ -12,16 +15,26 @@ test('Buy Sauce Labs Fleece Jacket',async({page})=> {
     const { username, password } = excelReader.getLoginCredentials(0);
     const PRODUCT = 'Sauce Labs Fleece Jacket';
 
+    const dummy = {
+      firstName: 'Test',
+      lastName: 'User',
+      postalCode: '12345',
+    };
+
     
     const login=new LoginPage(page);
     const inventory = new InventoryPage(page);
     const cart = new CartPage(page);
+    const checkoutinfo = new CheckoutInfoPage(page);
+    const checkoutoverview = new CheckoutOverviewPage(page);
+    const checkoutcomplete = new CheckoutCompletePage(page);
 
     //1. Navigate to app and login using credentials
     await login.goto();
     await login.expectLoaded();
 
     await login.login(username, password);
+    console.log('✅ Successfully logged in');
 
     //3) Verify product availability
     await inventory.expectProductVisible(PRODUCT);
@@ -52,6 +65,39 @@ test('Buy Sauce Labs Fleece Jacket',async({page})=> {
     //const inventoryPrice = await inventory.getProductPrice(PRODUCT); **
     await cart.expectItemDetails(PRODUCT, 1, inventoryPrice);
     console.log('✅ Product details displayed');
+
+    //8) Proceed to Checkout
+    await cart.checkout();
+    await checkoutinfo.expectLoaded();
+    console.log('✅ Checkout Page loaded successfully');
+
+    //9. Fill Checkout Information
+    await checkoutinfo.fillAndContinue(dummy.firstName, dummy.lastName, dummy.postalCode);
+    await checkoutoverview.expectLoaded();
+    console.log('✅ Information filled and loaded overview page');
+
+    //10. Verify Checkout Overview Details
+    await checkoutoverview.expectOverviewDetails(PRODUCT,1,inventoryPrice);
+    await checkoutoverview.expectItemTotalEqualsPrice(inventoryPrice);
+    console.log('✅ Checkout details verified');
+
+    //11. Complete the Order
+    await checkoutoverview.finish();
+    await checkoutcomplete.expectLoaded();
+    console.log('✅ Order Placed');
+
+    //12. Verify Order Completion Page
+    await checkoutcomplete.expectConfirmationMessage('Thank you for your order!');
+    await checkoutcomplete.expectIconVisible();
+    console.log('✅ Verified Order Completion');
+
+    // 13) Back to dashboard
+    await checkoutcomplete.backToHome();
+    await inventory.expectLoaded();
+    console.log('✅ Returned to Dashboard');
+
+    // Postconditions: cart cleared
+    await expect(page.locator('.shopping_cart_badge')).toHaveCount(0);
 
 });
 
