@@ -1,4 +1,6 @@
 import {test,expect} from '@playwright/test';
+import {BASE_URL,PRODUCT_NAMES,CHECKOUT_DATA,CART_COUNT} from '../utils/lutful_constants.js'
+
 
 import excelReader from '../utils/excelReader';
 
@@ -13,15 +15,7 @@ test('Buy Sauce Labs Fleece Jacket',async({page})=> {
 
     //read username/password from excel and store it 
     const { username, password } = excelReader.getLoginCredentials(0);
-    const PRODUCT = 'Sauce Labs Fleece Jacket';
 
-    const dummy = {
-      firstName: 'Test',
-      lastName: 'User',
-      postalCode: '12345',
-    };
-
-    
     const login=new LoginPage(page);
     const inventory = new InventoryPage(page);
     const cart = new CartPage(page);
@@ -37,21 +31,21 @@ test('Buy Sauce Labs Fleece Jacket',async({page})=> {
     console.log('✅ Successfully logged in');
 
     //3) Verify product availability
-    await inventory.expectProductVisible(PRODUCT);
+    await inventory.expectProductVisible(PRODUCT_NAMES.FLEECE_JACKET);
     console.log('✅ Fleece Jacket is visible on inventory page');
 
     // Capture price while still on inventory page
-    const inventoryPrice = await inventory.getProductPrice(PRODUCT);
+    const inventoryPrice = await inventory.getProductPrice(PRODUCT_NAMES.FLEECE_JACKET);
     console.log('Inventory price:', inventoryPrice);
 
     //4) add to cart
-    await inventory.addToCart(PRODUCT);
+    await inventory.addToCart(PRODUCT_NAMES.FLEECE_JACKET);
     console.log('✅ Fleece Jacket has been added to cart');
-    await inventory.expectButtonChangedToRemove(PRODUCT);
+    await inventory.expectButtonChangedToRemove(PRODUCT_NAMES.FLEECE_JACKET);
     console.log('✅ Remove button is visible');
 
     //5. Verify Cart Badge Increment
-    await inventory.expectCartBadgeCount(1);
+    await inventory.expectCartBadgeCount(CART_COUNT);
     console.log('✅ Cart badge count is 1');
 
     //6. Goto cart page
@@ -61,9 +55,7 @@ test('Buy Sauce Labs Fleece Jacket',async({page})=> {
 
     //7. Verify Product Details on Cart Page
     // Capture price to compare across pages 
-    //await inventory.expectLoaded();  **
-    //const inventoryPrice = await inventory.getProductPrice(PRODUCT); **
-    await cart.expectItemDetails(PRODUCT, 1, inventoryPrice);
+    await cart.expectItemDetails(PRODUCT_NAMES.FLEECE_JACKET, CART_COUNT, inventoryPrice);
     console.log('✅ Product details displayed');
 
     //8) Proceed to Checkout
@@ -72,12 +64,12 @@ test('Buy Sauce Labs Fleece Jacket',async({page})=> {
     console.log('✅ Checkout Page loaded successfully');
 
     //9. Fill Checkout Information
-    await checkoutinfo.fillAndContinue(dummy.firstName, dummy.lastName, dummy.postalCode);
+    await checkoutinfo.fillAndContinue(CHECKOUT_DATA.firstname,CHECKOUT_DATA.lastname,CHECKOUT_DATA.zipcode);
     await checkoutoverview.expectLoaded();
     console.log('✅ Information filled and loaded overview page');
 
     //10. Verify Checkout Overview Details
-    await checkoutoverview.expectOverviewDetails(PRODUCT,1,inventoryPrice);
+    await checkoutoverview.expectOverviewDetails(PRODUCT_NAMES.FLEECE_JACKET,CART_COUNT,inventoryPrice);
     await checkoutoverview.expectItemTotalEqualsPrice(inventoryPrice);
     console.log('✅ Checkout details verified');
 

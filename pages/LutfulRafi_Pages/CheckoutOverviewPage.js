@@ -1,5 +1,5 @@
 import { expect } from '@playwright/test';
-//import { extractPriceFromLabel, parsePrice } from '../../helpers/lutful_helper.js'
+import { extractPrice } from '../../helpers/lutful_helper.js'
 
 
 export class CheckoutOverviewPage {
@@ -28,10 +28,8 @@ export class CheckoutOverviewPage {
 
   async expectItemTotalEqualsPrice(expectedPrice) {
     const totalText = (await this.itemTotal.innerText()).trim(); // "Item total: $49.99"
-    await expect(this.itemTotal).toContainText(expectedPrice);
-
-    const match = totalText.match(/\$[\d.]+/);
-    expect(match && match[0]).toBe(expectedPrice);
+    const actualPrice = extractPrice(totalText);
+    expect(actualPrice).toBe(expectedPrice);
   }
 
   async finish() {
