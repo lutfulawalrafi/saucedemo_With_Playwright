@@ -62,7 +62,7 @@ export default class CartPage extends BasePage {
      */
     async getCartItemCount() {
         try {
-            this.logger.step('Counting items in cart');
+            this.logger.step(`Counting items in cart`);
             const items = await this.page.locator(this.locators.cartItem).all();
             const count = items.length;
             this.logger.pass(`Found ${count} items in cart`);

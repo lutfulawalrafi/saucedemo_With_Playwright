@@ -14,26 +14,25 @@ export default class CheckoutOverviewPage extends BasePage {
 
         // Define locators for cart page elements
         this.locators = {
-            pageTitle : '.title' ,
-            checkoutSummaryContainer : '#checkout_summary_container' ,
-            checkoutItemQuantity : '.cart_quantity',
-            checkoutItemName : '.inventory_item_name',
-            checkoutItemPrice : '.inventory_item_price',
-            checkoutItem : '.cart_item',
+            pageTitle: '.title',
+            checkoutSummaryContainer: '#checkout_summary_container',
+            checkoutItemQuantity: '.cart_quantity',
+            checkoutItemName: '.inventory_item_name',
+            checkoutItemPrice: '.inventory_item_price',
+            checkoutItem: '.cart_item',
             checkoutItemDescription: '.inventory_item_desc',
-            finishButton : '#finish',
-            cancelButton : '#cancel'
+            finishButton: '#finish',
+            cancelButton: '#cancel'
         };
     }
-
 
     /**
      * Verify user is on Checkout: Overview page
      * @returns {Promise<boolean>} True if on cart page
      */
     async isOnCheckoutOverviewPage() {
-        const expectedUrl = 'checkout-step-two.html' ;
-        const pageName = 'Checkout Overview' ;
+        const expectedUrl = 'checkout-step-two.html';
+        const pageName = 'Checkout Overview';
 
         return await this.isOnPage(expectedUrl, pageName);
     }
@@ -43,11 +42,11 @@ export default class CheckoutOverviewPage extends BasePage {
      * @returns {Promise<boolean>} True if checkout overview page is visible
      */
     async verifyCheckoutOverviewPageVisible() {
-        this.logger.step('Verifying checkout overview page is visible');
-        
+        this.logger.step(`Verifying checkout overview page is visible`);
+
         return await this.isPageVisible(
-            this.locators.pageTitle,                  
-            this.locators.checkoutSummaryContainer,  
+            this.locators.pageTitle,
+            this.locators.checkoutSummaryContainer,
             'Checkout Overview'
         );
     }
@@ -94,24 +93,23 @@ export default class CheckoutOverviewPage extends BasePage {
      */
     async clickFinishButton() {
         try {
-            this.logger.step('Clicking finish button');
+            this.logger.step(`Clicking finish button`);
             await this.safeClick(this.locators.finishButton);
-            this.logger.pass('Navigated to checkout complete page');
+            this.logger.pass(`Navigated to checkout complete page`);
         } catch (error) {
             this.logger.fail(`Failed to click finish button: ${error.message}`);
             throw error;
         }
     }
 
-
     /**
      * Click cancel button
      */
     async clickCancelButton() {
         try {
-            this.logger.step('Clicking cancel button');
+            this.logger.step(`Clicking cancel button`);
             await this.safeClick(this.locators.cancelButton);
-            this.logger.pass('Navigated back to dashboard page');
+            this.logger.pass(`Navigated back to dashboard page`);
         } catch (error) {
             this.logger.fail(`Failed to click cancel shopping: ${error.message}`);
             throw error;

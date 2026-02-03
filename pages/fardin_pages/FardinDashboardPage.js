@@ -67,7 +67,7 @@ export default class DashboardPage extends BasePage {
      */
     async getProductCount() {
         try {
-            this.logger.step('Counting products on dashboard');
+            this.logger.step(`Counting products on dashboard`);
             const products = await this.page.locator(this.locators.inventoryItem).all();
             const count = products.length;
             this.logger.pass(`Found ${count} products on dashboard`);

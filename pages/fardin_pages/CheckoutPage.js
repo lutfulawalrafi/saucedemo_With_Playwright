@@ -15,24 +15,23 @@ export default class CheckoutPage extends BasePage {
         // Define locators for cart page elements
         this.locators = {
             pageTitle: '.title',
-            firstNameInput : '#first-name',
-            lastNameInput : '#last-name',
-            postalCodeInput : '#postal-code',
-            cancelButton : '#cancel',
-            continueButton : '#continue',
-            checkoutContainerInfo : '.checkout_info_container',
+            firstNameInput: '#first-name',
+            lastNameInput: '#last-name',
+            postalCodeInput: '#postal-code',
+            cancelButton: '#cancel',
+            continueButton: '#continue',
+            checkoutContainerInfo: '.checkout_info_container',
             errorMessage: '[data-test="error"]'
         };
     }
-
 
     /**
      * Verify user is on checkout page
      * @returns {Promise<boolean>} True if on cart page
      */
     async isOnCheckoutPage() {
-        const expectedUrl = 'checkout-step-one.html' ;
-        const pageName = 'Checkout' ;
+        const expectedUrl = 'checkout-step-one.html';
+        const pageName = 'Checkout';
 
         return await this.isOnPage(expectedUrl, pageName);
     }
@@ -45,8 +44,8 @@ export default class CheckoutPage extends BasePage {
         this.logger.step(`Verifying checkout page is visible`);
 
         return await this.isPageVisible(
-            this.locators.pageTitle,                  
-            this.locators.checkoutContainerInfo,  
+            this.locators.pageTitle,
+            this.locators.checkoutContainerInfo,
             'Checkout'
         );
     }
@@ -95,24 +94,23 @@ export default class CheckoutPage extends BasePage {
      */
     async clickContinueButton() {
         try {
-            this.logger.step('Clicking continue button');
+            this.logger.step(`Clicking continue button`);
             await this.safeClick(this.locators.continueButton);
-            this.logger.pass('Navigated to checkout overview page');
+            this.logger.pass(`Navigated to checkout overview page`);
         } catch (error) {
             this.logger.fail(`Failed to click continue: ${error.message}`);
             throw error;
         }
     }
 
-
     /**
      * Click cancel button
      */
     async clickCancelButton() {
         try {
-            this.logger.step('Clicking cancel button');
+            this.logger.step(`Clicking cancel button`);
             await this.safeClick(this.locators.cancelButton);
-            this.logger.pass('Navigated back to cart page');
+            this.logger.pass(`Navigated back to cart page`);
         } catch (error) {
             this.logger.fail(`Failed to click cancel shopping: ${error.message}`);
             throw error;
@@ -154,6 +152,4 @@ export default class CheckoutPage extends BasePage {
             throw error;
         }
     }
-
-
 }
