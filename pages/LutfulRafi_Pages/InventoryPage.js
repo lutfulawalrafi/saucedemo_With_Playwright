@@ -8,21 +8,27 @@ export class InventoryPage {
     this.cartBadge = page.locator('.shopping_cart_badge');
   }
 
-  //checks if page is loaded
-  async expectLoaded(){
-    await expect(this.title).toHaveText('Products');
-  }
 
   productCardByName(name) {
-    //return this.page.locator('.inventory_item').filter({ hasText: name });
     const nameEl = this.page.locator('.inventory_item_name', { hasText: name });
     return this.page.locator('.inventory_item').filter({ has: nameEl });
   }
 
 
+  getTitle() {
+    return this.title;
+  }
 
-  async expectProductVisible(name) {
-    await expect(this.productCardByName(name)).toBeVisible();
+  getProductCard(name) {
+    return this.productCardByName(name);
+  }
+
+  getRemoveButton(name) {
+    return this.productCardByName(name).getByRole('button', { name: 'Remove' });
+  }
+
+  getCartBadge() {
+    return this.cartBadge;
   }
 
 
@@ -30,16 +36,6 @@ export class InventoryPage {
     const addBtn = this.productCardByName(name).getByRole('button', { name: /add to cart/i });
     await addBtn.click();
   }
-
-  async expectButtonChangedToRemove(name) {
-    const removeBtn = this.productCardByName(name).getByRole('button', { name: /remove/i });
-    await expect(removeBtn).toBeVisible();
-  }
-
-  async  expectCartBadgeCount(count){
-    await expect(this.cartBadge).toHaveText(String(count));
-  }
-
 
   async goToCart(){
     await this.cartIcon.click();

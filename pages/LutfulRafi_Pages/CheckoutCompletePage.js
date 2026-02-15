@@ -9,16 +9,16 @@ export class CheckoutCompletePage {
     this.backHomeButton = page.locator('#back-to-products');
   }
 
-  async expectLoaded() {
-    await expect(this.title).toHaveText('Checkout: Complete!');
+  async getTitleText() {
+    return (await this.title.innerText()).trim();
   }
 
-  async expectConfirmationMessage(text) {
-    await expect(this.confirmationMsg).toHaveText(text);
+  async getConfirmationMessage(text) {
+    return (await this.confirmationMsg.innerText()).trim();
   }
 
-  async expectIconVisible() {
-    await expect(this.completeIcon).toBeVisible();
+  async isIconVisible() {
+    return await this.completeIcon.isVisible();
   }
 
   async backToHome() {

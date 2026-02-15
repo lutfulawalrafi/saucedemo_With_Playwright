@@ -10,26 +10,33 @@ export class CheckoutOverviewPage {
     this.itemTotal = page.locator('.summary_subtotal_label'); // "Item total: $xx.xx"
   }
 
-  async expectLoaded() {
-    await expect(this.title).toHaveText('Checkout: Overview');
+  getTitle() {
+    return this.title;
   }
 
   overviewItemByName(name) {
     return this.page.locator('.cart_item').filter({ hasText: name });
   }
 
-  async expectOverviewDetails(name, qty, expectedPrice) {
-    const item = this.overviewItemByName(name);
-
-    await expect(item.locator('.inventory_item_name')).toHaveText(name);
-    await expect(item.locator('.cart_quantity')).toHaveText(String(qty));
-    await expect(item.locator('.inventory_item_price')).toHaveText(expectedPrice);
+  getOverviewItemName(name) {
+    return this.overviewItemByName(name).locator('.inventory_item_name');
   }
 
-  async expectItemTotalEqualsPrice(expectedPrice) {
+  getOverviewItemQty(name) {
+    return this.overviewItemByName(name).locator('.cart_quantity');
+  }
+
+  getOverviewItemPrice(name) {
+    return this.overviewItemByName(name).locator('.inventory_item_price');
+  }
+
+  getItemTotal() {
+    return this.itemTotal;
+  }
+
+  async getItemTotalPrice() {
     const totalText = (await this.itemTotal.innerText()).trim(); // "Item total: $49.99"
-    const actualPrice = extractPrice(totalText);
-    expect(actualPrice).toBe(expectedPrice);
+    return extractPrice(totalText);
   }
 
   async finish() {

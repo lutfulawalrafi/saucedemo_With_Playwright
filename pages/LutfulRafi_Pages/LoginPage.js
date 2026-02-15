@@ -11,13 +11,7 @@ export class LoginPage {
   }
 
   async goto() {
-    await this.page.goto(BASE_URL);
-  }
-
-  async expectLoaded() {
-    await expect(this.usernameInput).toBeVisible();
-    await expect(this.passwordInput).toBeVisible();
-    await expect(this.loginButton).toBeVisible();
+    await this.page.goto(BASE_URL); 
   }
 
   async login(username, password) {

@@ -3,24 +3,33 @@ import { expect } from '@playwright/test';
 export class CartPage {
   constructor(page) {
     this.page = page;
-    this.title = page.locator('.title'); // "Your Cart"
+    this.title = page.locator('.title');
     this.checkoutButton = page.locator('#checkout');
+    this.cartItems = page.locator('.cart_item');
+
+    this.itemName = '.inventory_item_name';
+    this.itemQty = '.cart_quantity';
+    this.itemPrice = '.inventory_item_price';
   }
 
-  async expectLoaded(){
-    await expect(this.title).toHaveText('Your Cart');
+    getTitle() {
+  return this.title;
   }
 
   cartItemByName(name) {
-    return this.page.locator('.cart_item').filter({ hasText: name });
+    return this.cartItems.filter({ hasText: name });
   }
  
-  async expectItemDetails(name, qty, expectedPrice) {
-    const item = this.cartItemByName(name);
+  getItemName(name) {
+    return this.cartItemByName(name).locator(this.itemName);
+  }
 
-    await expect(item.locator('.inventory_item_name')).toHaveText(name);
-    await expect(item.locator('.cart_quantity')).toHaveText(String(qty));
-    await expect(item.locator('.inventory_item_price')).toHaveText(expectedPrice);
+  getItemQty(name) {
+    return this.cartItemByName(name).locator(this.itemQty);
+  }
+
+  getItemPrice(name) {
+    return this.cartItemByName(name).locator(this.itemPrice);
   }
 
   async checkout() {

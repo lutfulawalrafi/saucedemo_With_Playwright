@@ -10,8 +10,8 @@ export class CheckoutInfoPage {
     this.continueButton = page.locator('#continue');
   }
 
-  async expectLoaded() {
-    await expect(this.title).toHaveText('Checkout: Your Information');
+   getTitle() {
+    return this.title;
   }
 
   async fillAndContinue(first, last, zip) {
